@@ -15,7 +15,7 @@
         <div class="card">
             <div class="card-header">
 
-                <h4>Dados do Profissional</h4>
+                <h4>Dados do Usuario</h4>
             </div>
             <div class="card-body">
                 <div class="default-tab">
