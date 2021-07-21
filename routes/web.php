@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', 'App\Http\Controllers\Web\UsuarioController@index')->name('form.cadastrar');
+Route::post('/', 'App\Http\Controllers\Web\UsuarioController@store')->name('cadastrar.submit');
+Route::get('/listar', 'App\Http\Controllers\Web\UsuarioController@list')->name('usuarios.list');
+Route::get('/editar/{id}', 'App\Http\Controllers\Web\UsuarioController@edit')->name('usuario.edit'); 
+Route::get('/delete/{id}', 'App\Http\Controllers\Web\UsuarioController@delete')->name('usuario.delete'); 
+Route::post('/update', 'App\Http\Controllers\Web\UsuarioController@update')->name('usuario.update');
