@@ -11,14 +11,13 @@ use Illuminate\Support\Facades\Crypt;
 class UsuarioController extends Controller
 {
 
-    public function index(){
+    public function index()
+    {
         return view('cadastro');
     }
 
     public function store(Request $request)
     {
-
-        
         $usuario = new Usuario($request->all());
         $usuario->validarCampos($request);
         try {
@@ -29,11 +28,11 @@ class UsuarioController extends Controller
         }
     }
 
-    public function list(Request $request){ 
-
-        $usuarios = Usuario::where('nome', 'like', '%' . $request->input('pesquisa') . '%')->paginate(10);
+    public function list(Request $request)
+    {
+        $user = new Usuario();
+        $usuarios = $user->findByName($request->input('pesquisa'));
         return view('listar', compact('usuarios'));
-
     }
 
     public function edit($id)
@@ -50,7 +49,6 @@ class UsuarioController extends Controller
     {
         $usuario = new Usuario();
         $usuario->validarCampos($request);
-
         $usuario = Usuario::find(Crypt::decrypt($request->id));
         if (isset($usuario)) {
             $usuario->update($request->all());
@@ -62,18 +60,16 @@ class UsuarioController extends Controller
 
     public function delete($id)
     {
-
-        $usuario = Usuario::find(Crypt::decrypt($id)); 
-        if(isset($usuario)){ 
-            try{ 
-                $usuario->delete(); 
-                return redirect()->back()->with(['success'=>'Usuário excluído com sucesso!']); 
-            } catch(Exception $e){ 
-                return redirect()->back()->with(['error'=>'Ocorreu um erro ao excluir o usuário']); 
-            } 
+        $usuario = Usuario::find(Crypt::decrypt($id));
+        if (isset($usuario)) {
+            try {
+                $usuario->delete();
+                return redirect()->back()->with(['success' => 'Usuário excluído com sucesso!']);
+            } catch (Exception $e) {
+                return redirect()->back()->with(['error' => 'Ocorreu um erro ao excluir o usuário']);
+            }
         } else {
-            return redirect()->back()->with(['error'=>'Usuário não encontrado!']); 
+            return redirect()->back()->with(['error' => 'Usuário não encontrado!']);
         }
-
     }
 }
